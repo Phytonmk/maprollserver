@@ -12,10 +12,10 @@ const e403 = (res, place) => {
 }
 
 module.exports = (req, res) => {
-	if (req.body.login === undefined || req.body.pass === undefined) {
-		e403(res, 1);
-	} else {
-    const body = req.body;
+  if (req.headers.login === undefined || req.headers.pass === undefined) {
+    e403(res, 1);
+  } else {
+    const body = req.headers;
 		md5.string.quiet(body.pass, (err, passHash) => {
       if (err) {
         e500(res, err);
@@ -26,12 +26,12 @@ module.exports = (req, res) => {
           } else if (data.length === 0) {
             e403(res, 2);
           } else {
-            app.db.query(`SELECT accessToken FROM accessTokens WHERE user=${data[0].id}`, (err, data) => {
+            app.db.query(`SELECT accesstoken FROM accesstokens WHERE user=${data[0].id}`, (err, data) => {
               if (err) {
                 e500(res, err);
               } else {
                 res.status(200);
-                res.send(data[0].accessToken);
+                res.send(data[0].accesstoken);
                 res.end();
               }
             });

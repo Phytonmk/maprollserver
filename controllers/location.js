@@ -14,8 +14,8 @@ module.exports = (req, res) => {
     e403(res, 1);
   } else {
     //latitude and longitude
-    if (req.body.latitude !== undefined && req.body.longitude !== undefined) {
-      app.db.query(`SELECT user FROM accessTokens WHERE accessToken = "${req.headers.accesstoken}"`, (err, data) => {
+    if (req.headers.latitude !== undefined && req.headers.longitude !== undefined) {
+      app.db.query(`SELECT user FROM accesstokens WHERE accesstoken = "${req.headers.accesstoken}"`, (err, data) => {
         if (err) {
           e500(res, err);
         } else if (data.length === 0) {
@@ -27,38 +27,43 @@ module.exports = (req, res) => {
               e500(res, err);
             } else {
               const user = data[0];
-              app.db.query(`UPDATE users SET latitude=${req.body.latitude}, longitude=${req.body.longitude} WHERE id=${userId}`, err => {
-                if (err) {
-                  e500(res, err);
-                } else {
-                  if (req.body.orders !== undefined) {
-                    let queryText = 'UPDATE orders SET status = 1 WHERE (';
-                    let or = false;
-                    for (let updatedOrderId of req.body.orders) {
-                      if (or)
-                        queryText += ' OR ';
-                      or = true;
-                      queryText += 'id=' + (updatedOrderId + '').replace(/[^0-9]/g, '') + ' ';   
-                      app.emit('locationUpdate', {
-                        orderId: updatedOrderId
+              if (user.status !== 1) {
+                e403(res, 3);
+              } else {
+                app.db.query(`UPDATE users SET latitude=${req.headers.latitude}, longitude=${req.headers.longitude} WHERE id=${userId}`, err => {
+                  if (err) {
+                    e500(res, err);
+                  } else {
+                    if (req.headers.orders !== undefined) {
+                      const ordersList = req.headers.orders.split(',');
+                      let queryText = `UPDATE orders SET status=1, currier=${userId}  WHERE (`;
+                      let or = false;
+                      for (let updatedOrderId of ordersList) {
+                        if (or)
+                          queryText += ' OR ';
+                        or = true;
+                        queryText += 'id=' + (updatedOrderId + '').replace(/[^0-9]/g, '') + ' ';   
+                        app.emit('locationUpdate', {
+                          orderId: updatedOrderId
+                        });
+                      };
+                      queryText += `) AND status=0 AND seller=${user.org}`;
+                      app.db.query(queryText, err => {
+                        if (err)
+                          console.log(err);
                       });
-                    };
-                    queryText += `) AND status=0 AND seller=${user.org}`;
-                    app.db.query(queryText, err => {
-                      if (err)
-                        console.log(err);
-                    });
+                    }
+                    res.status(200);
+                    res.end('');
                   }
-                  res.status(200);
-                  res.end('');
-                }
-              });
+                });
+              } 
             }
           });
         }
       });
     } else {
-      e505(res, 'wrong latitude or longitude');
+      e500(res, 'wrong latitude or longitude');
     }
 	}
 }

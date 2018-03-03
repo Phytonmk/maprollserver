@@ -1,11 +1,15 @@
-var express = require('express')
-var router = express.Router()
-router.use(function timeLog (req, res, next) {
-  console.log(`[${new Date}] REQUEST TO "${req.url}"`);
-  next()
-})
+const express = require('express')
 const bodyParser = require('body-parser');
+const router = express.Router()
+router.use(bodyParser.urlencoded({ extended: false }));
 router.use(bodyParser.json());
+router.use(function timeLog (req, res, next) {
+  console.log('----');
+  console.log(req.headers);
+  console.log(req.body);
+  console.log(`[${new Date}] REQUEST TO "${req.url}"`);
+  next();
+})
 const api = express.Router();
 router.use('/api/v1.0/', api);
 api.post('/reg', app.controllers.reg); // login and password - returns access token 

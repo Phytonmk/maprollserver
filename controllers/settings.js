@@ -13,7 +13,7 @@ module.exports = {
   	if (req.headers.accesstoken === undefined) {
       e403(res, 1);
     } else {
-      app.db.query(`SELECT user FROM accessTokens WHERE accessToken = "${req.headers.accesstoken}"`, (err, data) => {
+      app.db.query(`SELECT user FROM accesstokens WHERE accesstoken = "${req.headers.accesstoken}"`, (err, data) => {
         if (err) {
           e500(res, err);
         } else if (data.length === 0) {
@@ -65,7 +65,7 @@ module.exports = {
     if (req.headers.accesstoken === undefined) {
       e403(res, 1);
     } else {
-      app.db.query(`SELECT user FROM accessTokens WHERE accessToken = "${req.headers.accesstoken}"`, (err, data) => {
+      app.db.query(`SELECT user FROM accesstokens WHERE accesstoken = "${req.headers.accesstoken}"`, (err, data) => {
         if (err) {
           e500(res, err);
         } else if (data.length === 0) {

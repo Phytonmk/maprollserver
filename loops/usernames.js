@@ -8,12 +8,13 @@ setInterval(() => {
         const orgId = org.id * 1;
         if (app.bots[orgId] !== undefined) {
           if (org.botToken != app.bots[orgId].botToken) {
-            app.bots[orgId].bot = new tgApi(org.botToken, {polling: false});
+            app.bots[orgId].bot = new tgApi(org.botToken, {polling: true});
           }
         } else {
           app.bots[org.id] = {
             paymentToken: org.paymentToken,
-            bot: new tgApi(org.botToken, {polling: false})
+            botToken: org.botToken,
+            bot: new tgApi(org.botToken, {polling: true})
           };
         }
         app.bots[orgId].bot.getMe().then(botData => {

@@ -14,7 +14,7 @@ const e403 = (res, place) => {
 module.exports = {
 	get: (req, res) => {
     if (req.headers.accesstoken !== undefined) {
-      app.db.query(`SELECT user FROM accessTokens WHERE accessToken = "${req.headers.accesstoken}"`, (err, data) => {
+      app.db.query(`SELECT user FROM accesstokens WHERE accesstoken = "${req.headers.accesstoken}"`, (err, data) => {
         if (err) {
           e500(res, err);
         } else if (data.length === 0) {
@@ -53,7 +53,7 @@ module.exports = {
 	},
   list: (req, res) => {
     if (req.headers.accesstoken !== undefined) {
-      app.db.query(`SELECT user FROM accessTokens WHERE accessToken = "${req.headers.accesstoken}"`, (err, data) => {
+      app.db.query(`SELECT user FROM accesstokens WHERE accesstoken = "${req.headers.accesstoken}"`, (err, data) => {
         if (err) {
           e500(res, err);
         } else if (data.length === 0) {
@@ -93,7 +93,7 @@ module.exports = {
 	create: (req, res) => {
 		if (req.headers.accesstoken !== undefined) {
       const order = req.body;
-      app.db.query(`SELECT user FROM accessTokens WHERE accessToken = "${req.headers.accesstoken}"`, (err, data) => {
+      app.db.query(`SELECT user FROM accesstokens WHERE accesstoken = "${req.headers.accesstoken}"`, (err, data) => {
         if (err) {
           e500(res, err);
         } else if (data.length === 0) {
@@ -117,7 +117,7 @@ module.exports = {
                       e500(res, err);
                     } else {
                       app.db.query(`INSERT INTO orders VALUES(${id}, "${idHash}", null, null,` + 
-                      ` ${org.id}, ${order.price}, "${order.description}", "${order.title}", 0)`, (err) => {
+                      ` ${org.id}, ${order.price}, "${order.description}", "${order.title}", 0, ${order.latitude}, ${order.longitude})`, (err) => {
                         if (err) {
                           e500(res, err);
                         } else {
@@ -146,6 +146,24 @@ module.exports = {
     }
 	},
 	close: (req, res) => {
-
+    if (req.headers.accesstoken !== undefined && req.headers.orderid !== undefined) {
+      req.headers.orderid *= 1;
+      app.db.query(`SELECT user FROM accesstokens WHERE accesstoken = "${req.headers.accesstoken}"`, (err, data) => {
+        if (err) {
+          e500(res, err);
+        } else if (data.length === 0) {
+          e403(res, 5);
+        } else {
+          const userId = data[0].user;
+          app.db.query(`UPDATE orders SET status=2 WHERE currier=${userId} AND id=${req.headers.orderid}`, (err) => {
+            app.emit('orderClose', req.headers.orderid);
+            res.status(200);
+            res.end('');
+          });
+        }
+      });
+    } else {
+      e403(res, 6)
+    }
 	}
 }

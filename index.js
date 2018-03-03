@@ -15,7 +15,7 @@ app.db = connection;
 app.eventsListeners = {};
 app.on = (eventCode, callback) => {
   if (app.eventsListeners[eventCode] === undefined)
-  	app.eventsListeners[eventCode] = [];
+  	app.eventsListeners[eventCode] = [callback];
   else
   	app.eventsListeners[eventCode].push(callback);
 }
@@ -30,6 +30,12 @@ const controllersFiles = fs.readdirSync('./controllers');
 app.controllers = {};
 for (let controller of controllersFiles) {
   app.controllers[controller.replace('.js', '')] = require(`./controllers/${controller}`);
+}
+
+const botControllersFiles = fs.readdirSync('./botControllers');
+app.botControllers = {};
+for (let botController of botControllersFiles) {
+  app.botControllers[botController.replace('.js', '')] = require(`./botControllers/${botController}`);
 }
 
 const loopFiles = fs.readdirSync('./loops');
@@ -52,11 +58,13 @@ app.db.query('SELECT id, botToken, paymentToken FROM organisations', (err, data)
       const botNumber = org.id;   
       app.bots[org.id] = {
         paymentToken: org.paymentToken,
-        bot: new tgApi(org.botToken, {polling: false}
+        botToken: org.botToken,
+        bot: new tgApi(org.botToken, {polling: true}
       )};
       app.bots[org.id].bot.getMe().then(botData => {
         app.bots[org.id].username = botData.username;
       });
     }
+    require('./routers/bots.js');
   }
 });

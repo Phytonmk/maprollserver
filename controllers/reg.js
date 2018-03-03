@@ -12,8 +12,7 @@ const e403 = (res, place) => {
 }
 module.exports = (req, res) => {
   try {
-    console.log(req.body);
-    const body = req.body;
+    const body = req.headers;
     if (body.reg !== undefined &&
      (body.reg.orgName !== undefined || body.reg.status !== undefined && body.reg.orgId !== undefined)) {
       regUser(req, res, body);
@@ -85,14 +84,14 @@ const setUserOrg = (req, res, body, userId, orgId, status) => {
     if (err) {
       e500(res, err)
     } else {
-      genAccessToken(res, userId);
+      genaccesstoken(res, userId);
     }
   });
 }
 
-const genAccessToken = (res, userId) => {
+const genaccesstoken = (res, userId) => {
   const token = app.controllers.tokenGen();
-  app.db.query(`INSERT  INTO accessTokens VALUES(${userId}, "${token}")`, err => {
+  app.db.query(`INSERT  INTO accesstokens VALUES(${userId}, "${token}")`, err => {
     if (err) {
       e500(res, err)
     } else {
