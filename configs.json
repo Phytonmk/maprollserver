@@ -1,0 +1,10 @@
+{
+  "authbottoken": "",
+  "db": {
+    "host": "localhost",
+    "user": "root",
+    "password": "",
+    "database": "maproll",
+    "charset" : "utf8mb4_bin"
+  }
+}

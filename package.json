@@ -1,0 +1,16 @@
+{
+  "name": "maproll",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "crypto": "^1.0.1",
+    "express": "^4.16.2",
+    "nodejs-md5": "^1.0.2",
+    "sql": "^0.78.0"
+  },
+  "scripts": {
+    "start": "nodemon index.js"
+  }
+}
