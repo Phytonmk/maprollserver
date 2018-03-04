@@ -155,10 +155,19 @@ module.exports = {
           e403(res, 5);
         } else {
           const userId = data[0].user;
-          app.db.query(`UPDATE orders SET status=2 WHERE currier=${userId} AND id=${req.headers.orderid}`, (err) => {
-            app.emit('orderClose', req.headers.orderid);
-            res.status(200);
-            res.end('');
+          console.log(userId);
+          app.db.query(`UPDATE orders SET status=2 WHERE currier=${userId} AND id=${req.headers.orderid} AND status!=2`, (err, response) => {
+            console.log(response);
+            if (!err && response.affectedRows !== 0) {
+              app.emit('orderClose', req.headers.orderid);
+              res.status(200);
+              res.end('');
+            } else {
+              if (err)
+                console.log(err);
+              res.status(404);
+              res.end('');
+            } 
           });
         }
       });

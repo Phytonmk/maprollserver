@@ -21,6 +21,7 @@ setInterval(() => {
           app.bots[orgId].username = botData.username;
         });
         app.bots[orgId].paymentToken = org.paymentToken;
+        app.bots[orgId].id = org.orgId;
       }
     } else {
       console.log(err);

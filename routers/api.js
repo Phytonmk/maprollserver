@@ -16,9 +16,9 @@ api.post('/reg', app.controllers.reg); // login and password - returns access to
 api.post('/login', app.controllers.login); // login and password - returns access token
 api.get('/settings', app.controllers.settings.get); // access token - returns serialized JSON
 api.post('/settings', app.controllers.settings.set); // access token, serialized JSON
-// api.get('/chatsPreview', app.controllers.chats); // access token - returns JSON array of objects {name, order, lastMessage, unreadMessages(number)}
-// api.get('/chat', app.controllers.chats); // access token, JSON {chatId, offset, limit} - returns JSON array of messages {date, from, fromPic, text}
-// api.post('/message', app.controllers.message); // access token, chatid, text
+api.get('/chatsPreview', app.controllers.chats.preview); // access token - returns JSON array of objects {name, order, lastMessage, unreadMessages(number)}
+api.get('/chat', app.controllers.chats.one); // access token, JSON {chatId, offset, limit} - returns JSON array of messages {date, from, fromPic, text}
+api.post('/message', app.controllers.chats.send); // access token, chatid, text
 // api.put('/courier', app.controllers.courier); // access token, coureir name - returns couriers list
 // api.delete('/courier', app.controllers.courier); // access token, courier id
 // api.get('/couriers', app.controllers.courier); // access token - return couriers list 

@@ -21,30 +21,35 @@ module.exports = (org, bot, query) => {
             let inline_keyboard = [];
             switch(query.data.split('_')[1] * 1) {
               case 1:
+                bot.answerCallbackQuery(query.id, 'Спасибо, мы постараемся улучшить сервис');
                 inline_keyboard = [
                   [{text: '[⭐️]', callback_data: 'rate_1_' + order.id}, {text: '⭐️⭐️', callback_data: 'rate_2_' + order.id}, {text: '⭐️⭐️⭐️', callback_data: 'rate_3'}],
                   [{text: '⭐️⭐️⭐️⭐️', callback_data: 'rate_4_' + order.id}, {text: '⭐️⭐️⭐️⭐️⭐️', callback_data: 'rate_5_' + order.id}]
                 ];
                 break;
               case 2:
+                bot.answerCallbackQuery(query.id, 'Спасибо, мы постараемся улучшить сервис');
                 inline_keyboard = [
                   [{text: '⭐️', callback_data: 'rate_1_' + order.id}, {text: '[⭐️⭐️]', callback_data: 'rate_2_' + order.id}, {text: '⭐️⭐️⭐️', callback_data: 'rate_3'}],
                   [{text: '⭐️⭐️⭐️⭐️', callback_data: 'rate_4_' + order.id}, {text: '⭐️⭐️⭐️⭐️⭐️', callback_data: 'rate_5_' + order.id}]
                 ];
                 break;
               case 3:
+                bot.answerCallbackQuery(query.id, 'Спасибо, мы постараемся улучшить сервис');
                 inline_keyboard = [
                   [{text: '⭐️', callback_data: 'rate_1_' + order.id}, {text: '⭐️⭐️', callback_data: 'rate_2_' + order.id}, {text: '[⭐️⭐️⭐️]', callback_data: 'rate_3'}],
                   [{text: '⭐️⭐️⭐️⭐️', callback_data: 'rate_4_' + order.id}, {text: '⭐️⭐️⭐️⭐️⭐️', callback_data: 'rate_5_' + order.id}]
                 ];
                 break;
               case 4:
+                bot.answerCallbackQuery(query.id, 'Спасибо 🙂');
                 inline_keyboard = [
                   [{text: '⭐️', callback_data: 'rate_1_' + order.id}, {text: '⭐️⭐️', callback_data: 'rate_2_' + order.id}, {text: '⭐️⭐️⭐️', callback_data: 'rate_3'}],
                   [{text: '[⭐️⭐️⭐️⭐️]', callback_data: 'rate_4_' + order.id}, {text: '⭐️⭐️⭐️⭐️⭐️', callback_data: 'rate_5_' + order.id}]
                 ];
                 break;
               case 5:
+                bot.answerCallbackQuery(query.id, 'Спасибо 😁');
                 inline_keyboard = [
                   [{text: '⭐️', callback_data: 'rate_1_' + order.id}, {text: '⭐️⭐️', callback_data: 'rate_2_' + order.id}, {text: '⭐️⭐️⭐️', callback_data: 'rate_3'}],
                   [{text: '⭐️⭐️⭐️⭐️', callback_data: 'rate_4_' + order.id}, {text: '[⭐️⭐️⭐️⭐️⭐️]', callback_data: 'rate_5_' + order.id}]

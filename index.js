@@ -45,6 +45,11 @@ for (let loop of loopFiles) {
 
 app.ex = express();
 app.ex.use(express.static('public'));
+app.ex.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 app.ex.use('/', require('./routers/api.js'));
 app.ex.listen(3000);
 
@@ -59,8 +64,9 @@ app.db.query('SELECT id, botToken, paymentToken FROM organisations', (err, data)
       app.bots[org.id] = {
         paymentToken: org.paymentToken,
         botToken: org.botToken,
-        bot: new tgApi(org.botToken, {polling: true}
-      )};
+        id: org.id,
+        bot: new tgApi(org.botToken, {polling: true})
+      };
       app.bots[org.id].bot.getMe().then(botData => {
         app.bots[org.id].username = botData.username;
       });
