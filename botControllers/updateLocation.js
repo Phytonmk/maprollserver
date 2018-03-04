@@ -24,9 +24,8 @@ app.controllers.formatTime = (secondsOffset) => {
   return result;
 }
 app.on('locationUpdate', (updateData) => {
-  console.log(updateData);
-	app.db.query(`SELECT * FROM orders WHERE id=${updateData.orderId}`,  (err, data) => {
-		if (!err) {
+  app.db.query(`SELECT * FROM orders WHERE id=${updateData.orderId}`,  (err, data) => {
+    if (!err) {
       for (let order of data) {
         app.db.query(`SELECT * FROM users WHERE id=${order.currier}`, (err, data) => {
           if (!err && data.length > 0) {
@@ -36,8 +35,13 @@ app.on('locationUpdate', (updateData) => {
                 axios.get(`https://maps.googleapis.com/maps/api/distancematrix/json?origins=${user.latitude},${user.longitude}&` + 
                 `destinations=${order.latitude},${order.longitude}&key=${app.configs.googleMapsApiKey}`).then(googleMapsResponse => {
                     // console.log(JSON.stringify(googleMapsResponse.data, null, 4))
-                    const time = app.controllers.formatTime(googleMapsResponse.data.rows[0].elements[0].duration.value);
-                    const msgText = `*Расчётное время прибытия курьера*\n\`${time}\``;
+                    let time, msgText;
+                    if (googleMapsResponse.data !== undefined && googleMapsResponse.data.rows.length > 0 && googleMapsResponse.data.rows[0].elements[0].duration !== undefined) {
+                      time = app.controllers.formatTime(googleMapsResponse.data.rows[0].elements[0].duration.value);
+                      msgText = `*Расчётное время прибытия курьера*\n\`${time}\``;
+                    } else {
+                      msgText = `*Расчётное время прибытия курьера*\n🤪🤯`;
+                    }
                     if (result.length === 0) {
                       app.bots[user.org].bot.sendLocation(order.buyer, user.latitude, user.longitude, {live_period: 86400}).then(locationMsg => {
                         app.bots[user.org].bot.sendMessage(order.buyer, msgText, {parse_mode: 'Markdown'}).then(infoMsg => {

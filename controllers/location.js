@@ -35,7 +35,7 @@ module.exports = (req, res) => {
                     e500(res, err);
                   } else {
                     if (req.headers.orders !== undefined && req.headers.orders.split(',').length > 0) {
-                      const ordersList = req.headers.orders.split(',');
+                      let ordersList = req.headers.orders.split(',');
                       for (let i = 0; i < ordersList.length;) {
                         if (ordersList[i] === '')
                           ordersList.splice(i, 1);
@@ -43,21 +43,30 @@ module.exports = (req, res) => {
                           i++;
                       }
                       if (ordersList.length > 0) {
-                        let queryText = `UPDATE orders SET status=1, currier=${userId}  WHERE (`;
+                        let queryText = `UPDATE orders SET orders.status=1, orders.currier=${userId}  WHERE `;
                         let or = false;
+                        const idsForEmmiting = [];
+                        console.log(ordersList);
                         for (let updatedOrderId of ordersList) {
                           if (or)
                             queryText += ' OR ';
                           or = true;
-                          queryText += 'id=' + (updatedOrderId + '').replace(/[^0-9]/g, '') + ' ';   
-                          app.emit('locationUpdate', {
-                            orderId: updatedOrderId
-                          });
+                          idsForEmmiting.push(updatedOrderId);
+                          queryText += 'orders.id=' + updatedOrderId;   
+                          // queryText += 'id=' + (updatedOrderId + '').replace(/[^0-9]/g, '') + ' ';   
                         };
-                        queryText += `) AND status=0 AND seller=${user.org}`;
+                        queryText += ` AND orders.status=0 AND orders.seller=${user.org}`;
+                        console.log(queryText);
                         app.db.query(queryText, err => {
-                          if (err)
+                          if (err) {
                             console.log(err);
+                          } else {
+                            for (let emmitId of idsForEmmiting) {
+                              app.emit('locationUpdate', {
+                                orderId: emmitId
+                              });
+                            }
+                          }
                         });
                       }
                     }

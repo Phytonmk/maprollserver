@@ -67,3 +67,6 @@ body > div{
 #staff-list>div>b{
  color:#C33121;
 }
+#messages-list>div{
+	margin-bottom:10px;
+}

@@ -23,40 +23,40 @@ module.exports = (org, bot, query) => {
               case 1:
                 bot.answerCallbackQuery(query.id, 'Спасибо, мы постараемся улучшить сервис');
                 inline_keyboard = [
-                  [{text: '[⭐️]', callback_data: 'rate_1_' + order.id}, {text: '⭐️⭐️', callback_data: 'rate_2_' + order.id}, {text: '⭐️⭐️⭐️', callback_data: 'rate_3'}],
+                  [{text: '[⭐️]', callback_data: 'rate_1_' + order.id}, {text: '⭐️⭐️', callback_data: 'rate_2_' + order.id}, {text: '⭐️⭐️⭐️', callback_data: 'rate_3_' + order.id}],
                   [{text: '⭐️⭐️⭐️⭐️', callback_data: 'rate_4_' + order.id}, {text: '⭐️⭐️⭐️⭐️⭐️', callback_data: 'rate_5_' + order.id}]
                 ];
                 break;
               case 2:
                 bot.answerCallbackQuery(query.id, 'Спасибо, мы постараемся улучшить сервис');
                 inline_keyboard = [
-                  [{text: '⭐️', callback_data: 'rate_1_' + order.id}, {text: '[⭐️⭐️]', callback_data: 'rate_2_' + order.id}, {text: '⭐️⭐️⭐️', callback_data: 'rate_3'}],
+                  [{text: '⭐️', callback_data: 'rate_1_' + order.id}, {text: '[⭐️⭐️]', callback_data: 'rate_2_' + order.id}, {text: '⭐️⭐️⭐️', callback_data: 'rate_3_' + order.id}],
                   [{text: '⭐️⭐️⭐️⭐️', callback_data: 'rate_4_' + order.id}, {text: '⭐️⭐️⭐️⭐️⭐️', callback_data: 'rate_5_' + order.id}]
                 ];
                 break;
               case 3:
                 bot.answerCallbackQuery(query.id, 'Спасибо, мы постараемся улучшить сервис');
                 inline_keyboard = [
-                  [{text: '⭐️', callback_data: 'rate_1_' + order.id}, {text: '⭐️⭐️', callback_data: 'rate_2_' + order.id}, {text: '[⭐️⭐️⭐️]', callback_data: 'rate_3'}],
+                  [{text: '⭐️', callback_data: 'rate_1_' + order.id}, {text: '⭐️⭐️', callback_data: 'rate_2_' + order.id}, {text: '[⭐️⭐️⭐️]', callback_data: 'rate_3_' + order.id}],
                   [{text: '⭐️⭐️⭐️⭐️', callback_data: 'rate_4_' + order.id}, {text: '⭐️⭐️⭐️⭐️⭐️', callback_data: 'rate_5_' + order.id}]
                 ];
                 break;
               case 4:
                 bot.answerCallbackQuery(query.id, 'Спасибо 🙂');
                 inline_keyboard = [
-                  [{text: '⭐️', callback_data: 'rate_1_' + order.id}, {text: '⭐️⭐️', callback_data: 'rate_2_' + order.id}, {text: '⭐️⭐️⭐️', callback_data: 'rate_3'}],
+                  [{text: '⭐️', callback_data: 'rate_1_' + order.id}, {text: '⭐️⭐️', callback_data: 'rate_2_' + order.id}, {text: '⭐️⭐️⭐️', callback_data: 'rate_3_' + order.id}],
                   [{text: '[⭐️⭐️⭐️⭐️]', callback_data: 'rate_4_' + order.id}, {text: '⭐️⭐️⭐️⭐️⭐️', callback_data: 'rate_5_' + order.id}]
                 ];
                 break;
               case 5:
                 bot.answerCallbackQuery(query.id, 'Спасибо 😁');
                 inline_keyboard = [
-                  [{text: '⭐️', callback_data: 'rate_1_' + order.id}, {text: '⭐️⭐️', callback_data: 'rate_2_' + order.id}, {text: '⭐️⭐️⭐️', callback_data: 'rate_3'}],
+                  [{text: '⭐️', callback_data: 'rate_1_' + order.id}, {text: '⭐️⭐️', callback_data: 'rate_2_' + order.id}, {text: '⭐️⭐️⭐️', callback_data: 'rate_3_' + order.id}],
                   [{text: '⭐️⭐️⭐️⭐️', callback_data: 'rate_4_' + order.id}, {text: '[⭐️⭐️⭐️⭐️⭐️]', callback_data: 'rate_5_' + order.id}]
                 ];
                 break;
             }
-            bot.editMessageText('*Оценка качетсва доставки:*', {
+            bot.editMessageText('*Оценка качества доставки:*', {
               parse_mode: 'Markdown',
               chat_id: order.buyer,
               message_id: query.message.message_id,

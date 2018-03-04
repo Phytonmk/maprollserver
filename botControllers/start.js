@@ -10,7 +10,7 @@ module.exports = (bot, msg) => {
 			bot.sendMessage(msg.chat.id, `*Ваш заказ:* \`#${order.id}\`\n\n${order.description}\n\n` + 
 			`Как только курьер возьмёт ваш заказ, бот пришлёт карту с его передвиженями.\n` +
 			`При появлении любых вопросов просто напишите их в этот чат!`, {parse_mode: 'Markdown'});
-			app.db.query(`UPDATE orders SET buyer=${msg.chat.id} WHERE id=${order.id}`, (err) => {
+			app.db.query(`UPDATE orders SET orders.buyer=${msg.chat.id}, orders.status=1 WHERE orders.id=${order.id}`, (err) => {
 				if (err)
 					console.log(err);
 			});

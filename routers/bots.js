@@ -4,7 +4,7 @@ const genUserName = (chat) => {
     result += ' ' + chat.last_name;
   if (chat.username)
     result += ' @' + chat.username;
-  result = result.replace(/[^\sa-z0-9абвгдеёжиклмнопрстуфхцчшщьыъэюя]/gi, '');
+  result = result.replace(/[^\sa-z0-9абвгдеёжиклмнопрстуфхцчшщьыъэюя@\-]/gi, '');
   return result;
 }
 

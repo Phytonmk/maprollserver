@@ -39,7 +39,7 @@ const loadStaff = () => {
     beforeSend: (request) => {
       request.setRequestHeader('accesstoken', accessToken);
     },
-    url: 'http://evosup.ru:3000/api/v1.0/staff',
+    url: 'http://evosup.ru/api/v1.0/staff',
     success: (msg) => {
       document.querySelector('#staff-list').innerHTML = '';
       const staffList = JSON.parse(msg);
@@ -74,7 +74,7 @@ const sendMessage = () => {
       request.setRequestHeader('chatid', selectedChat);
     },
     data: `{"text": "${document.querySelector('#messenger-form textarea').value}"}`,
-    url: 'http://evosup.ru:3000/api/v1.0/message',
+    url: 'http://evosup.ru/api/v1.0/message',
     success: (msg) => {
       document.querySelector('#messenger-form textarea').value = '';
     }
@@ -87,7 +87,7 @@ const loadChat = (chatId) => {
       request.setRequestHeader('accesstoken', accessToken);
       request.setRequestHeader('chatid', chatId);
     },
-    url: 'http://evosup.ru:3000/api/v1.0/chat',
+    url: 'http://evosup.ru/api/v1.0/chat',
     success: (msg) => {
       document.querySelector('#messages-list').innerHTML = '';
       const messagesList = JSON.parse(msg);
@@ -112,7 +112,7 @@ const loadChatsPreview = () => {
     beforeSend: (request) => {
       request.setRequestHeader('accesstoken', accessToken);
     },
-    url: 'http://evosup.ru:3000/api/v1.0/chatsPreview',
+    url: 'http://evosup.ru/api/v1.0/chatsPreview',
     success: (msg) => {
       document.querySelector('#chats-list').innerHTML = '';
       const chatsList = JSON.parse(msg);
@@ -147,7 +147,7 @@ if (accessToken === undefined) {
         request.setRequestHeader('login', document.querySelector('#login input[name=login]').value);
         request.setRequestHeader('pass', document.querySelector('#login input[name=password]').value);
       },
-      url: 'http://evosup.ru:3000/api/v1.0/login',
+      url: 'http://evosup.ru/api/v1.0/login',
       success: (msg) => {
         setCookie('accessToken', msg, {expires: 60 * 60 * 24 * 365});
         location.reload();
@@ -162,7 +162,7 @@ if (accessToken === undefined) {
         request.setRequestHeader('login', document.querySelector('#register input[name=login]').value);
         request.setRequestHeader('pass', document.querySelector('#register input[name=password]').value);
       },
-      url: 'http://evosup.ru:3000/api/v1.0/reg',
+      url: 'http://evosup.ru/api/v1.0/reg',
       success: (msg) => {
         setCookie('accessToken', msg, {expires: 60 * 60 * 24 * 365});
         location.reload();
@@ -175,7 +175,7 @@ if (accessToken === undefined) {
     beforeSend: (request) => {
       request.setRequestHeader('accesstoken', accessToken);
     },
-    url: 'http://evosup.ru:3000/api/v1.0/settings',
+    url: 'http://evosup.ru/api/v1.0/settings',
     success: (msg) => {
       const settingsData = JSON.parse(msg);
       document.querySelector('#settings').style.display = 'block';
@@ -207,7 +207,7 @@ const sendSettings = () => {
     data: `{"title": "${document.querySelector('#settings input[name=orgName]').value}",` +
       `"description": "${document.querySelector('#settings textarea[name=description]').value}",` +
       `"botToken": "${document.querySelector('#settings input[name=botToken]').value}"}`,
-    url: 'http://evosup.ru:3000/api/v1.0/settings',
+    url: 'http://evosup.ru/api/v1.0/settings',
     success: (msg) => {
       console.log('ok');
     }
@@ -222,7 +222,7 @@ const regStaff = () => {
         request.setRequestHeader('pass', document.querySelector('#reg-staff input[name=password]').value);
         request.setRequestHeader('status', document.querySelector('#reg-staff select').value);
     },
-    url: 'http://evosup.ru:3000/api/v1.0/regStaff',
+    url: 'http://evosup.ru/api/v1.0/regStaff',
     success: (msg) => {
       console.log('ok');
       loadStaff();
