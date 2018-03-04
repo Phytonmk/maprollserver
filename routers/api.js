@@ -23,6 +23,7 @@ api.post('/message', app.controllers.chats.send); // access token, chatid, text
 // api.delete('/courier', app.controllers.courier); // access token, courier id
 // api.get('/couriers', app.controllers.courier); // access token - return couriers list 
 // api.update('/courier', app.controllers.courier); // access token - return couriers list [{name, id, login & pass (if auto generated)}]
+api.get('/staff', app.controllers.staffList); // access token
 api.post('/regStaff', app.controllers.regStaff); // access token
 api.put('/location', app.controllers.location); // access token
 api.get('/order', app.controllers.order.get);

@@ -1,7 +1,10 @@
 const axios = require('axios');
-const formatTime = (seconds) => {
+
+const hoursOffset = 3;
+
+app.controllers.formatTime = (secondsOffset) => {
   const now = new Date().getTime();
-  const arriving = new Date(now + seconds * 1000);
+  const arriving = new Date(now + secondsOffset * 1000);
   let result = '';
   if ((arriving.getDate() + '').length === 1)
     result += '0';
@@ -11,9 +14,9 @@ const formatTime = (seconds) => {
     result += '0';
   result += (arriving.getMonth() + 1);
   result += ' ';
-  if ((arriving.getHours() + '').length === 1)
+  if (((arriving.getHours() + hoursOffset) + '').length === 1)
     result += '0';
-  result += arriving.getHours();
+  result += (arriving.getHours() + hoursOffset);
   result += ':';
   if (((arriving.getMinutes() + 1) + '').length === 1)
     result += '0';
@@ -26,13 +29,14 @@ app.on('locationUpdate', (updateData) => {
 		if (!err) {
       for (let order of data) {
         app.db.query(`SELECT * FROM users WHERE id=${order.currier}`, (err, data) => {
-          if (!err) {
+          if (!err && data.length > 0) {
             const user = data[0];
             app.db.query(`SELECT * FROM livelocations WHERE chatId=${order.buyer} AND orderId=${order.id}`, (err, result) => {
               if (!err) {
                 axios.get(`https://maps.googleapis.com/maps/api/distancematrix/json?origins=${user.latitude},${user.longitude}&` + 
                 `destinations=${order.latitude},${order.longitude}&key=${app.configs.googleMapsApiKey}`).then(googleMapsResponse => {
-                    const time = formatTime(googleMapsResponse.data.rows[0].elements[0].duration.value);
+                    // console.log(JSON.stringify(googleMapsResponse.data, null, 4))
+                    const time = app.controllers.formatTime(googleMapsResponse.data.rows[0].elements[0].duration.value);
                     const msgText = `*Расчётное время прибытия курьера*\n\`${time}\``;
                     if (result.length === 0) {
                       app.bots[user.org].bot.sendLocation(order.buyer, user.latitude, user.longitude, {live_period: 86400}).then(locationMsg => {

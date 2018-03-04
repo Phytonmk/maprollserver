@@ -13,7 +13,7 @@ app.on('orderClose', (orderId) => {
                 axios.get(`https://api.telegram.org/bot${app.bots[user.org].botToken}/` + 
                 `stopMessageLiveLocation?chat_id=${result[0].chatId}&message_id=${result[0].mapMessageId}`
                 ).then(() => {}).catch(console.log);
-                console.log(order.buyer);
+                app.bots[user.org].bot.editMessageText(`*Ваш заказ был доставлен* \`${app.controllers.formatTime(0)}\``);
                 setTimeout(() => {
                   app.bots[user.org].bot.sendMessage(order.buyer, '*Оценка качетсва доставки:*', {parse_mode: 'Markdown', reply_markup: {
                     inline_keyboard: [

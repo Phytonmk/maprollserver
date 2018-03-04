@@ -64,7 +64,7 @@ module.exports = {
               e500(res, err);
             } else {
               const user = data[0];
-              app.db.query(`SELECT * FROM orders WHERE seller=${user.org}`, (err, data) => {
+              app.db.query(`SELECT * FROM orders WHERE seller=${user.org} AND orders.status > 0 AND orders.status < 3`, (err, data) => {
                 if (err) {
                   e500(res, err);
                 } else {

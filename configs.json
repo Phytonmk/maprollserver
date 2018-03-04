@@ -2,8 +2,8 @@
   "authbottoken": "",
   "db": {
     "host": "localhost",
-    "user": "root",
-    "password": "",
+    "user": "admin",
+    "password": "evotorIsShit",
     "database": "maproll",
     "charset" : "utf8mb4_bin"
   },

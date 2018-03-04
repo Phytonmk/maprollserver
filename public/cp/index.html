@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Admin panel</title>
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+</head>
+<body>
+	<div>Control pannel</div>
+	<section id="login" style="display: none">
+		<p>Sign in</p>
+		<input type="text" name="login" placeholder="login"><br>
+		<input type="password" name="password" placeholder="password"><br>
+		<input type="button" value="Sign in">
+	</section>
+	<section id="register" style="display: none">
+		<p>Registration</p>
+		<input type="text" name="orgName" placeholder="Organistaion name"><br>
+		<input type="text" name="login" placeholder="login"><br>
+		<input type="password" name="password" placeholder="password"><br>
+		<input type="button" value="Sign up">
+	</section>
+	<br><br>
+	<section id="settings" style="display: none">
+		<p>Settings</p>
+		<input type="text" name="balance" placeholder="balance" readonly="true"> - balance<br>
+		<input type="text" name="orgName" placeholder="Organisation title"> - orgName<br>
+		<textarea name="description" placeholder="description"></textarea> - description<br>
+		<input type="text" name="botToken" placeholder="Telegram bo token"> - botToken<br>
+		<input type="button" value="Update">
+	</section>
+	<br><br>
+	<section id="staff" style="display: none">
+		<p>Staff controll</p>
+		<div id="reg-staff">
+			<input type="text" name="login"> - login<br>
+			<input type="text" name="password"> - password<br>
+			<select>
+				<option value="1">Currier</option>
+				<option value="2">Operator</option>
+			</select>
+			<br>
+			<input type="button" value="Sign up">
+		</div>
+		<div id="staff-list">
+		</div>
+	</section>
+	<br><br>
+	<section id="messenger" style="display: none">
+		<div id="chats-list"></div>
+		<br>
+		<br>
+		<br>
+		<div id="messenger-form" style="display: none">
+			<textarea name="message-test" placeholder="description"></textarea><br>
+			<input type="button" value="Send">
+		</div>
+		<div id="messages-list"></div>
+	</section>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script type="text/javascript" src="js/main.js"></script>
+</body>
+</html>

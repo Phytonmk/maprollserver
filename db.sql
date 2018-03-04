@@ -17,7 +17,6 @@ CREATE DATABASE IF NOT EXISTS `maproll` /*!40100 DEFAULT CHARACTER SET utf8mb4 C
 USE `maproll`;
 
 -- Дамп структуры для таблица maproll.accesstokens
-DROP TABLE IF EXISTS `accesstokens`;
 CREATE TABLE IF NOT EXISTS `accesstokens` (
   `user` int(11) DEFAULT NULL,
   `accesstoken` tinytext CHARACTER SET utf8 DEFAULT NULL
@@ -32,7 +31,6 @@ INSERT INTO `accesstokens` (`user`, `accesstoken`) VALUES
 /*!40000 ALTER TABLE `accesstokens` ENABLE KEYS */;
 
 -- Дамп структуры для таблица maproll.bots
-DROP TABLE IF EXISTS `bots`;
 CREATE TABLE IF NOT EXISTS `bots` (
   `org` int(11) DEFAULT NULL,
   `username` tinytext COLLATE utf8mb4_bin DEFAULT NULL
@@ -44,7 +42,6 @@ DELETE FROM `bots`;
 /*!40000 ALTER TABLE `bots` ENABLE KEYS */;
 
 -- Дамп структуры для таблица maproll.livelocations
-DROP TABLE IF EXISTS `livelocations`;
 CREATE TABLE IF NOT EXISTS `livelocations` (
   `chatId` int(11) DEFAULT NULL,
   `mapMessageId` int(11) DEFAULT NULL,
@@ -60,12 +57,12 @@ INSERT INTO `livelocations` (`chatId`, `mapMessageId`, `subtitleMessageId`, `ord
 /*!40000 ALTER TABLE `livelocations` ENABLE KEYS */;
 
 -- Дамп структуры для таблица maproll.messages
-DROP TABLE IF EXISTS `messages`;
 CREATE TABLE IF NOT EXISTS `messages` (
   `id` int(11) DEFAULT NULL,
   `text` text COLLATE utf8mb4_bin DEFAULT NULL,
   `org` int(11) DEFAULT NULL,
   `buyer` int(11) DEFAULT NULL,
+  `username` text COLLATE utf8mb4_bin DEFAULT NULL,
   `fromorg` tinyint(4) DEFAULT NULL,
   `read` tinyint(4) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
@@ -73,19 +70,18 @@ CREATE TABLE IF NOT EXISTS `messages` (
 -- Дамп данных таблицы maproll.messages: ~8 rows (приблизительно)
 DELETE FROM `messages`;
 /*!40000 ALTER TABLE `messages` DISABLE KEYS */;
-INSERT INTO `messages` (`id`, `text`, `org`, `buyer`, `fromorg`, `read`) VALUES
-	(0, 'Отправить это сообщение нашему оператору?', 0, 156646228, 0, 0),
-	(1, 'Отправить это сообщение нашему оператору?', 0, 156646228, 0, 1),
-	(2, 'Отправить это сообщение нашему оператору?', 0, 156646228, 0, 0),
-	(3, 'Отправить это сообщение нашему оператору?', 0, 156646228, 0, 0),
-	(4, 'Отправить это сообщение нашему оператору?', 0, 156646228, 0, 0),
-	(5, 'Привет', 0, 156646228, 0, 0),
-	(6, 'How are you?)', 0, 156646228, 1, 1),
-	(7, 'f', 0, 156646228, 0, 0);
+INSERT INTO `messages` (`id`, `text`, `org`, `buyer`, `username`, `fromorg`, `read`) VALUES
+	(0, 'Отправить это сообщение нашему оператору?', 0, 156646228, NULL, 0, 0),
+	(1, 'Отправить это сообщение нашему оператору?', 0, 156646228, NULL, 0, 1),
+	(2, 'Отправить это сообщение нашему оператору?', 0, 156646228, NULL, 0, 0),
+	(3, 'Отправить это сообщение нашему оператору?', 0, 156646228, NULL, 0, 0),
+	(4, 'Отправить это сообщение нашему оператору?', 0, 156646228, NULL, 0, 0),
+	(5, 'Привет', 0, 156646228, NULL, 0, 0),
+	(6, 'How are you?)', 0, 156646228, NULL, 1, 1),
+	(7, 'f', 0, 156646228, NULL, 0, 0);
 /*!40000 ALTER TABLE `messages` ENABLE KEYS */;
 
 -- Дамп структуры для таблица maproll.orders
-DROP TABLE IF EXISTS `orders`;
 CREATE TABLE IF NOT EXISTS `orders` (
   `id` int(11) DEFAULT NULL,
   `hash` tinytext COLLATE utf8mb4_bin DEFAULT NULL,
@@ -111,7 +107,6 @@ INSERT INTO `orders` (`id`, `hash`, `currier`, `buyer`, `seller`, `price`, `desc
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 
 -- Дамп структуры для таблица maproll.organisations
-DROP TABLE IF EXISTS `organisations`;
 CREATE TABLE IF NOT EXISTS `organisations` (
   `id` int(11) DEFAULT NULL,
   `owner` int(11) DEFAULT NULL,
@@ -122,7 +117,7 @@ CREATE TABLE IF NOT EXISTS `organisations` (
   `paymentToken` tinytext CHARACTER SET utf8 DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
--- Дамп данных таблицы maproll.organisations: ~1 rows (приблизительно)
+-- Дамп данных таблицы maproll.organisations: ~0 rows (приблизительно)
 DELETE FROM `organisations`;
 /*!40000 ALTER TABLE `organisations` DISABLE KEYS */;
 INSERT INTO `organisations` (`id`, `owner`, `title`, `description`, `balance`, `botToken`, `paymentToken`) VALUES
@@ -130,7 +125,6 @@ INSERT INTO `organisations` (`id`, `owner`, `title`, `description`, `balance`, `
 /*!40000 ALTER TABLE `organisations` ENABLE KEYS */;
 
 -- Дамп структуры для таблица maproll.rates
-DROP TABLE IF EXISTS `rates`;
 CREATE TABLE IF NOT EXISTS `rates` (
   `rate` tinyint(4) DEFAULT NULL,
   `orderId` int(11) DEFAULT NULL,
@@ -146,7 +140,6 @@ INSERT INTO `rates` (`rate`, `orderId`, `currier`, `buyer`) VALUES
 /*!40000 ALTER TABLE `rates` ENABLE KEYS */;
 
 -- Дамп структуры для таблица maproll.users
-DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) DEFAULT NULL,
   `org` int(11) DEFAULT NULL,

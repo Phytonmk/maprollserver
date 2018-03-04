@@ -1,8 +1,18 @@
+const genUserName = (chat) => {
+  let result = chat.first_name;
+  if (chat.last_name)
+    result += ' ' + chat.last_name;
+  if (chat.username)
+    result += ' @' + chat.username;
+  result = result.replace(/[^\sa-z0-9абвгдеёжиклмнопрстуфхцчшщьыъэюя]/gi, '');
+  return result;
+}
+
 for (let o in app.bots) {
   const org = app.bots[o];
+  const orgId = org.id
   const bot = org.bot
   bot.on('message', (msg) => {
-    console.log(msg);
     if (msg.text !== undefined) {
       if (msg.text.substr(0, 7) === '/start ') {
         app.botControllers.start(bot, msg);
@@ -10,7 +20,7 @@ for (let o in app.bots) {
         if (!msg.reply_to_message) {
           app.botControllers.messageCheck(bot, msg);
         } else {
-          app.botControllers.sendMessage(org, msg);
+          app.botControllers.sendMessage(orgId, msg, genUserName(msg.chat));
         }
       }
     }
@@ -22,7 +32,7 @@ for (let o in app.bots) {
     } else if (query.data === 'cancelSending') {
       bot.deleteMessage(query.message.chat.id, query.message.message_id);
     } else if (query.data === 'sendMessage') {
-      app.botControllers.sendInitMessage(org, bot, query);
+      app.botControllers.sendInitMessage(org, bot, query, genUserName(query.message.chat));
     }
   });
 }

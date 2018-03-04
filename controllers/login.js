@@ -12,6 +12,7 @@ const e403 = (res, place) => {
 }
 
 module.exports = (req, res) => {
+  console.log(req.headers);
   if (req.headers.login === undefined || req.headers.pass === undefined) {
     e403(res, 1);
   } else {
@@ -20,7 +21,8 @@ module.exports = (req, res) => {
       if (err) {
         e500(res, err);
       } else {
-        app.db.query(`SELECT id FROM users WHERE login="${body.login}" AND passHash="${passHash}"`, (err, data) => {
+        console.log(body.login + ';' + passHash);
+        app.db.query(`SELECT id FROM users WHERE users.login="${body.login}" AND users.passhash="${passHash}"`, (err, data) => {
           if (err) {
             e500(res, err);
           } else if (data.length === 0) {

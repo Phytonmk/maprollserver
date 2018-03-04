@@ -22,10 +22,10 @@ module.exports = (req, res) => {
             e500(res, err);
           } else {
             const user = data[0];
-            if (user.status < 3 || req.body.reg === undefined || req.body.reg.status === undefined) {
+            if (user.status < 3 || req.headers.status === undefined) {
               e403(res, 3);
             } else {
-              req.body.reg.orgId = user.org;
+              req.headers.orgid = user.org;
               app.controllers.reg(req, res);
             }
   		    }

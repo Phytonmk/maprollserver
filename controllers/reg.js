@@ -1,8 +1,8 @@
 const md5 = require('nodejs-md5');
 
 const e500 = (res, e) => {
-	res.status(500);
-	res.end('Internal server error');
+  res.status(500);
+  res.end('Internal server error');
   console.log(e);
 }
 const e403 = (res, place) => {
@@ -13,8 +13,7 @@ const e403 = (res, place) => {
 module.exports = (req, res) => {
   try {
     const body = req.headers;
-    if (body.reg !== undefined &&
-     (body.reg.orgName !== undefined || body.reg.status !== undefined && body.reg.orgId !== undefined)) {
+    if (body.orgname !== undefined || body.status !== undefined && body.orgid !== undefined) {
       regUser(req, res, body);
     } else {
       e403(res, 1);
@@ -24,7 +23,7 @@ module.exports = (req, res) => {
   }
 }
 const regUser = (req, res, body) => {
-  app.db.query(`SELECT * FROM users WHERE login="${body.reg.login}"`, (err, data) => {
+  app.db.query(`SELECT * FROM users WHERE login="${body.login}"`, (err, data) => {
     if (err) {
       e500(res, err);
     } else {
@@ -36,19 +35,19 @@ const regUser = (req, res, body) => {
             e500(res, err);
           } else {
             const userId = data[0]['COUNT(*)'] * 1;
-            md5.string.quiet(body.reg.pass, (err, passHash) => {
+            md5.string.quiet(body.pass, (err, passHash) => {
               if (err) {
                 e500(res, err);
               } else {
                 app.db.query(`INSERT INTO users VALUES (${userId}, null,` + 
-                  ` "${body.reg.login.toLowerCase()}", "${passHash}", 0, null, null)`, (err) => {
+                  ` "${body.login.toLowerCase()}", "${passHash}", 0, null, null)`, (err) => {
                   if (err) {
                     e500(res, err);
                   } else {
-                    if (body.reg.orgName !== undefined) {
+                    if (body.orgname !== undefined) {
                       regOrg(req, res, body, userId);
-                    } else if (body.reg.orgId !== undefined) {
-                      setUserOrg(req, res, body, userId, body.reg.orgId, body.reg.status);
+                    } else if (body.orgid !== undefined) {
+                      setUserOrg(req, res, body, userId, body.orgid, body.status);
                     }
                   }
                 });
@@ -68,7 +67,7 @@ const regOrg = (req, res, body, ownerId) => {
     } else {
       const id = data[0]['COUNT(*)'] * 1;
       app.db.query(`INSERT INTO organisations VALUES (${id}, ${ownerId},` + 
-        ` "${body.reg.orgName}", "", 0, "", "")`, (err) => {
+        ` "${body.orgname}", "", 0, "", "")`, (err) => {
           if (err) {
             e500(res, err);
           } else {

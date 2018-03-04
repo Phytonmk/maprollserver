@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Orders generator</title>
+</head>
+<body>
+	<input id="accesstoken" value="12R0VpERP1R7H4pt6D_UV_ANjwnFltDrYLNS2nExuy821x76LUyASoWj3lL1qKrz"> - access token <br>
+	<input id="title" value="Some order"> - order title <br>
+	<input id="description" value="Info about order"> - order description <br>
+	<input id="price" value="100"> - price <br>
+	<input id="latitude" value="59.973166"> - order latitude <br>
+	<input id="longitude" value="30.340324"> - order longitude <br>
+	<input type="button" value="Order">
+	<div>
+	</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript">
+	$('input[type=button]').click(() => {
+		$.ajax( {
+		    type: 'POST',
+		    beforeSend: (request) => {
+		      request.setRequestHeader('accesstoken', $('#accesstoken').val());
+		      request.setRequestHeader('Content-Type', 'application/json');
+		    },
+		    url: 'http://evosup.ru:3000/api/v1.0/order',
+		    data: `{
+				"title": "${$('#title').val()}",
+				"description": "${$('#description').val()}",
+				"price": "${$('#price').val()}",
+				"latitude": "${$('#latitude').val()}",
+				"longitude": "${$('#longitude').val()}"
+		    }`,
+		    success: (msg) => {
+		    	msg = JSON.parse(msg);
+		        $('div').html(msg.order.link);
+		    }
+		  });
+	});
+</script>
+</body>
+</html>

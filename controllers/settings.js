@@ -44,13 +44,15 @@ module.exports = {
                 settings.botToken = req.body.botToken;
               if (req.body.paymentToken)
                 settings.paymentToken = req.body.paymentToken;
+              console.log(userId);
               app.db.query(`UPDATE organisations SET title="${settings.title}", ` +
                 `description="${settings.description}",` + 
                 ` balance="${settings.balance}", botToken="${settings.botToken}",` + 
-                ` paymentToken="${settings.paymentToken}" WHERE owner = ${userId}`, (err) => {
+                ` paymentToken="${settings.paymentToken}" WHERE organisations.owner= ${userId}`, (err, data) => {
                 if (err) {
                   e500(res, err);
                 } else {
+                  console.log(data);
                   res.status(200);
                   res.end('');
                 }

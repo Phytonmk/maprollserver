@@ -30,7 +30,7 @@ module.exports = {
                 } else {
                   const result = [];
                   for (let lastMessage of data) {
-                    result.push({from: lastMessage.buyer, text: lastMessage.text});
+                    result.push({from: lastMessage.buyer, text: lastMessage.text, username: lastMessage.username});
                   }
                   res.status(200);
                   res.send(JSON.stringify(result));
@@ -65,7 +65,7 @@ module.exports = {
                 } else {
                   const result = [];
                   for (let message of data) {
-                    result.push({from: message.buyer, text: message.text});
+                    result.push({from: message.buyer, text: message.text, fromorg: message.fromorg, username: message.username});
                   }
                   res.status(200);
                   res.send(JSON.stringify(result));
@@ -97,7 +97,7 @@ module.exports = {
               app.db.query('SELECT COUNT(*) FROM messages', (err, data) => {
                 if (!err) {
                   const id = data[0]['COUNT(*)'];
-                  app.db.query(`INSERT INTO messages VALUES(${id}, "${req.body.text}", ${user.org}, ${req.headers.chatid}, 1, 0)`, (err) => {
+                  app.db.query(`INSERT INTO messages VALUES(${id}, "${req.body.text}", ${user.org}, ${req.headers.chatid}, "", 1, 0)`, (err) => {
                     if (err) {
                       e500(res, err);
                     } else {

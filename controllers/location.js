@@ -34,24 +34,32 @@ module.exports = (req, res) => {
                   if (err) {
                     e500(res, err);
                   } else {
-                    if (req.headers.orders !== undefined) {
+                    if (req.headers.orders !== undefined && req.headers.orders.split(',').length > 0) {
                       const ordersList = req.headers.orders.split(',');
-                      let queryText = `UPDATE orders SET status=1, currier=${userId}  WHERE (`;
-                      let or = false;
-                      for (let updatedOrderId of ordersList) {
-                        if (or)
-                          queryText += ' OR ';
-                        or = true;
-                        queryText += 'id=' + (updatedOrderId + '').replace(/[^0-9]/g, '') + ' ';   
-                        app.emit('locationUpdate', {
-                          orderId: updatedOrderId
+                      for (let i = 0; i < ordersList.length;) {
+                        if (ordersList[i] === '')
+                          ordersList.splice(i, 1);
+                        else
+                          i++;
+                      }
+                      if (ordersList.length > 0) {
+                        let queryText = `UPDATE orders SET status=1, currier=${userId}  WHERE (`;
+                        let or = false;
+                        for (let updatedOrderId of ordersList) {
+                          if (or)
+                            queryText += ' OR ';
+                          or = true;
+                          queryText += 'id=' + (updatedOrderId + '').replace(/[^0-9]/g, '') + ' ';   
+                          app.emit('locationUpdate', {
+                            orderId: updatedOrderId
+                          });
+                        };
+                        queryText += `) AND status=0 AND seller=${user.org}`;
+                        app.db.query(queryText, err => {
+                          if (err)
+                            console.log(err);
                         });
-                      };
-                      queryText += `) AND status=0 AND seller=${user.org}`;
-                      app.db.query(queryText, err => {
-                        if (err)
-                          console.log(err);
-                      });
+                      }
                     }
                     res.status(200);
                     res.end('');
